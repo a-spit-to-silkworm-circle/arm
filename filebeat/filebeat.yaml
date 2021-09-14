@@ -1,0 +1,12 @@
+filebeat.inputs:
+- type: log
+  encoding: utf-8
+  enabled: true
+  paths:
+    - /var/log/test.log
+  fields:
+    tag: 'testlog'
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  indices:
+    - index: "testlog-%{+yyyy.MM.dd}"
