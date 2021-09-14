@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testlog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testlog
+  template:
+    metadata:
+      labels:
+        app: testlog
+    spec:
+      volumes:
+      - name: log
+        emptyDir: {}
+      containers:  
+      - image: 192.168.18.213/demo/filebeat_arm:v2
+        name: filebeat
+        volumeMounts:
+        - name: log
+          mountPath: /var/log
+      
+      - image: 192.168.18.213/demo/testlog:v2
+        name: testlog
+        volumeMounts:
+        - name: log
+          mountPath: /var/log
+
